@@ -1,2 +1,2 @@
 # pc-pal-network
-配信ごっこしてるパソコンくん（Frutiger Aero っぽくしてみたかった）
+配信ごっこしてるパソコンくん（Frutiger Aero Inspired）
