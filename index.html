@@ -678,15 +678,15 @@ body {
   position: absolute;
   left: 3px;
   top: 1px;
-  width: 40px;
-  height: 38px;
+  width: 46px;
+  height: 42px;
 }
 .puni-icon-head {
   position: absolute;
-  left: 10px;
+  left: 11px;
   top: 0;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 25%, #ffffff 0 7%, #b9f5ff 8% 18%, #42bde8 35%, #1475c4 70%, #07528f 100%);
   border: 3px solid white;
@@ -695,10 +695,10 @@ body {
 }
 .puni-icon-body {
   position: absolute;
-  left: 9px;
-  top: 16px;
-  width: 22px;
-  height: 18px;
+  left: 10px;
+  top: 19px;
+  width: 26px;
+  height: 20px;
   border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%;
   background: linear-gradient(135deg, #f4feff 0%, #bdeff8 25%, #50c7e8 55%, #1579c1 100%);
   border: 3px solid white;
@@ -801,6 +801,24 @@ body {
 }  
 .resident-walking {  
   animation: poyoWalk 0.5s ease-in-out infinite;  
+}  
+/* PUNIが喋っている時は、少しだけ動きを大きくする */
+.resident.puni-speaking .personBody { animation: puniTalkBody .32s ease-in-out infinite; }
+.resident.puni-speaking .arm.left { animation: puniTalkArmLeft .28s ease-in-out infinite alternate; }
+.resident.puni-speaking .arm.right { animation: puniTalkArmRight .28s ease-in-out infinite alternate; }
+@keyframes puniTalkBody {
+  0%,100% { transform: scaleX(1) scaleY(1) translateY(0); }
+  25% { transform: scaleX(1.06) scaleY(1.10) translateY(-3px) rotate(-1deg); }
+  50% { transform: scaleX(1.08) scaleY(1.13) translateY(-4px) rotate(1deg); }
+  75% { transform: scaleX(1.04) scaleY(1.07) translateY(-2px) rotate(-1deg); }
+}
+@keyframes puniTalkArmLeft {
+  from { transform: rotate(18deg) translateY(0); }
+  to { transform: rotate(-28deg) translateY(-1px); }
+}
+@keyframes puniTalkArmRight {
+  from { transform: rotate(-18deg) translateY(0); }
+  to { transform: rotate(28deg) translateY(-1px); }
 }  
     
 .video-title {                  
@@ -1399,36 +1417,70 @@ let generator = null;
 let isRunning = false;    
 let userTopic = null;
 
-// PUNIは、PC PALが2〜3回話すごとに1回だけ話す
+// PUNIは、PC PALが2〜4回話すごとに1回だけ話す（PUNIの回はPC PALは喋らない）
 let pcTalksSincePuni = 0;
-let nextPuniTalkAt = 2 + Math.floor(Math.random() * 2);
+let nextPuniTalkAt = 2 + Math.floor(Math.random() * 3);
 
 function resetPuniTalkCounter() {
   pcTalksSincePuni = 0;
-  nextPuniTalkAt = 2 + Math.floor(Math.random() * 2);
+  nextPuniTalkAt = 2 + Math.floor(Math.random() * 3);
+}
+
+function choosePuniVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  const voices = window.speechSynthesis.getVoices();
+  const english = voices.filter(v => /^en(-|_)/i.test(v.lang));
+
+  // PUNIは「大人の女性」より、子ども・幼い雰囲気の声を最優先。
+  // 端末によって音声名が違うため、候補名を広めに見る。
+  const childPreferred = [
+    'Child', 'Kid', 'Young', 'Junior', 'Siri Child',
+    'Ava', 'Zoe', 'Samantha'
+  ];
+
+  for (const name of childPreferred) {
+    const hit = english.find(v => v.name.toLowerCase().includes(name.toLowerCase()));
+    if (hit) return hit;
+  }
+
+  // 子ども系の名前が無い場合は、若め・柔らかめの女性音声を優先。
+  const softFemale = ['Siri', 'Ava', 'Zoe', 'Samantha', 'Tessa', 'Fiona', 'Karen'];
+  for (const name of softFemale) {
+    const hit = english.find(v => v.name.toLowerCase().includes(name.toLowerCase()));
+    if (hit) return hit;
+  }
+
+  return english.find(v => /child|kid|young|junior|female|woman/i.test(v.name))
+      || english[0]
+      || null;
+}
+
+function setPuniSpeaking(active) {
+  activeResidents.forEach(r => r.el.classList.toggle('puni-speaking', !!active));
 }
 
 function speakPuniText(text) {
   if (!('speechSynthesis' in window) || activeResidents.length === 0 || !isRunning) return Promise.resolve();
-
   return new Promise((resolve) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
-    // PC PALより少し低く、ゆっくり。睡眠向けの落ち着いた声。
-    utterance.pitch = 0.38;
-    utterance.rate = 0.33;
+    const puniVoice = choosePuniVoice();
+    if (puniVoice) utterance.voice = puniVoice;
+    // 少し高め・ゆっくりめにして、幼い女の子っぽい雰囲気に寄せる。
+    utterance.pitch = 1.12;
+    utterance.rate = 0.40;
     utterance.volume = 0.02;
-
     utterance.onstart = () => {
+      setPuniSpeaking(true);
       const line = document.createElement("div");
       line.className = "chat-line";
       line.innerHTML = '<span class="name-pcpal">puni:</span> <span class="comment">' + text + '</span>';
       chat.appendChild(line);
       while (chat.children.length > 8) chat.removeChild(chat.firstElementChild);
     };
-    utterance.onend = () => resolve();
-    utterance.onerror = () => resolve();
+    utterance.onend = () => { setPuniSpeaking(false); resolve(); };
+    utterance.onerror = () => { setPuniSpeaking(false); resolve(); };
     window.speechSynthesis.speak(utterance);
   });
 }
@@ -1559,31 +1611,38 @@ async function runStreamerTalk() {
         newPart = "Frutiger... aqua glass... hmm.";            
       }            
             
-      await new Promise((resolve) => {    
-        speakTextFast(    
-          newPart,     
-          () => {    
-            const line = document.createElement("div");            
-            line.className = "chat-line";            
-            line.innerHTML = '<span class="name-pcpal">pc_pal:</span> <span class="comment">' + newPart + '</span>';            
-            chat.appendChild(line);            
-            while (chat.children.length > 8) { chat.removeChild(chat.firstElementChild); }    
-            pcLargeEl.classList.add("speaking");    
-          },     
-          () => {    
-            pcLargeEl.classList.remove("speaking");    
-            resolve();    
-          }    
-        );    
-      });
-
-      // PUNIが1人以上いるときだけPCの発話回数を数える。人数では割合を変えない。
+      // AIが今回生成した「新しい文章」を、PC PALかPUNIのどちらか一方だけが担当する。
+      // PUNIの回はPC PALが先に同じ文章を喋らないよう、発話前に担当を決める。
+      let speaker = "pc";
       if (activeResidents.length > 0) {
-        pcTalksSincePuni++;
-        if (pcTalksSincePuni >= nextPuniTalkAt && isRunning && activeResidents.length > 0) {
-          await speakPuniText(newPart);
-          resetPuniTalkCounter();
+        if (pcTalksSincePuni >= nextPuniTalkAt) {
+          speaker = "puni";
+        } else {
+          pcTalksSincePuni++;
         }
+      }
+
+      if (speaker === "puni") {
+        await speakPuniText(newPart);
+        resetPuniTalkCounter();
+      } else {
+        await new Promise((resolve) => {    
+          speakTextFast(    
+            newPart,     
+            () => {    
+              const line = document.createElement("div");            
+              line.className = "chat-line";            
+              line.innerHTML = '<span class="name-pcpal">pc_pal:</span> <span class="comment">' + newPart + '</span>';            
+              chat.appendChild(line);            
+              while (chat.children.length > 8) { chat.removeChild(chat.firstElementChild); }    
+              pcLargeEl.classList.add("speaking");    
+            },     
+            () => {    
+              pcLargeEl.classList.remove("speaking");    
+              resolve();    
+            }    
+          );    
+        });
       }
     
       const randomAeroAdd = [" water", " sky", " glass", " 2000s", " aqua"];            
@@ -2316,6 +2375,8 @@ function addResident() {
 
   el.style.left = startX + 'px';
   el.style.top = startY + 'px';
+  el.style.setProperty('--puni-direction', '1');
+  el.style.animation = 'poyoWalk 0.5s ease-in-out infinite';
   videoArea.appendChild(el);
 
   activeResidents.push({
@@ -2349,10 +2410,9 @@ function sendResidentsAway() {
 
 residentSpawnerIcon.addEventListener('click', () => {
   if (residentsExiting) return;
-
-  if (residentClickStep < 3) {
-    residentClickStep++;
+  if (activeResidents.length < 3) {
     addResident();
+    residentClickStep = activeResidents.length;
     updateResidentLabel();
   } else {
     residentClickStep = 0;
@@ -2391,6 +2451,7 @@ function animateResidents() {
 
   if (residentsExiting && activeResidents.length === 0) {
     residentsExiting = false;
+    residentClickStep = 0;
     residentLabel.textContent = 'PUNI';
     resetPuniTalkCounter();
   }
