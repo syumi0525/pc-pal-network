@@ -1661,13 +1661,7 @@ aiStartBtn.addEventListener('click', async () => {
 });                  
                   
 async function runStreamerTalk() {                  
-  const aeroSeeds = [          
-    "Frutiger Aero glass water sky 2000s",          
-    "Blue sky, glossy bubbles, digital nature",          
-    "Retro windows, crystal water, nostalgia",          
-    "Aqua interface, green hills, futuristic 2005"          
-  ];          
-  let currentText = aeroSeeds[Math.floor(Math.random() * aeroSeeds.length)];                  
+  let currentText = "Write a monologue.";                  
           
   while (isRunning) {                  
     logStatus("● PC PALがトーク中");                  
@@ -1676,10 +1670,10 @@ async function runStreamerTalk() {
       userTopic = null;          
       const promptText = topicFromUser
         ? `YOU said: ${topicFromUser}\nPC PAL:`
-        : currentText;
+        : "Write a monologue.";
 
       const output = await generator(promptText, {                  
-        max_new_tokens: topicFromUser ? 90 : 50,                  
+        max_new_tokens: 90,                  
         do_sample: true,                  
         temperature: topicFromUser ? 1.25 : 1.1,                  
       });                  
@@ -1725,10 +1719,7 @@ async function runStreamerTalk() {
         });      
       }      
           
-      const randomAeroAdd = [" water", " sky", " glass", " 2000s", " aqua"];                  
-      currentText = topicFromUser          
-        ? aeroSeeds[Math.floor(Math.random() * aeroSeeds.length)]          
-        : newPart + (Math.random() < 0.5 ? randomAeroAdd[Math.floor(Math.random() * randomAeroAdd.length)] : "");                  
+      currentText = "Write a monologue.";                  
       await new Promise(r => setTimeout(r, 8000));                  
     } catch (e) {                  
       const fallback = "Error...";                  
@@ -1748,7 +1739,7 @@ async function runStreamerTalk() {
           }          
         );          
       });          
-      currentText = aeroSeeds[Math.floor(Math.random() * aeroSeeds.length)];                  
+      currentText = "Write a monologue.";                  
       await new Promise(r => setTimeout(r, 6000));                  
     }                  
   }                  
