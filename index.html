@@ -1674,22 +1674,22 @@ async function runStreamerTalk() {
     try {                  
       const topicFromUser = userTopic;          
       userTopic = null;          
-      const promptText = topicFromUser                  
-        ? `User: ${topicFromUser}\nPC PAL:`                  
-        : currentText;                  
+      const promptText = topicFromUser
+        ? `YOU said: ${topicFromUser}\nPC PAL:`
+        : currentText;
+
       const output = await generator(promptText, {                  
         max_new_tokens: topicFromUser ? 90 : 50,                  
         do_sample: true,                  
         temperature: topicFromUser ? 1.25 : 1.1,                  
       });                  
-      let fullText = output[0].generated_text;                  
+      const fullText = output[0].generated_text;                  
       let newPart = topicFromUser                  
         ? fullText.split("PC PAL:").pop().trim()                  
         : fullText.replace(currentText, "").trim();                  
-      newPart = newPart.replace(/^\s*\*\*pc_pal:\*\*\s*/i, "").trim();                  
-      if (!newPart || newPart.length < 2) {                  
-        newPart = topicFromUser ? `${topicFromUser}... hmm...` : "Frutiger... aqua glass... hmm.";                  
-      }                  
+      newPart = newPart.replace(/^\s*\*\*pc_pal:\*\*\s*/i, "").trim();
+      newPart = newPart.replace(/^\s*Respond naturally to YOU\. You must use the exact word or topic from YOU(?:'s|’s) message at least once in your reply\. Do not ignore YOU(?:'s|’s) word or switch to an unrelated topic\. Keep the usual PC PAL-style casual inner monologue\.?\s*/i, "").trim();
+      newPart = newPart.replace(/^\s*YOU said:.*?\n/i, "").trim();                  
                   
       // AIが今回生成した「新しい文章」を、PC PALかPUNIのどちらか一方だけが担当する。      
       // PUNIの回はPC PALが先に同じ文章を喋らないよう、発話前に担当を決める。      
