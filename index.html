@@ -1687,12 +1687,8 @@ async function runStreamerTalk() {
         ? fullText.split("PC PAL:").pop().trim()                  
         : fullText.replace(currentText, "").trim();                  
       newPart = newPart.replace(/^\s*\*\*pc_pal:\*\*\s*/i, "").trim();                  
-      if (newPart.includes('\n')) newPart = newPart.split('\n')[0].trim();                  
       if (!newPart || newPart.length < 2) {                  
         newPart = topicFromUser ? `${topicFromUser}... hmm...` : "Frutiger... aqua glass... hmm.";                  
-      }                  
-      if (topicFromUser && !newPart.toLowerCase().includes(topicFromUser.toLowerCase())) {                  
-        newPart = `${newPart} ...${topicFromUser}...`;                  
       }                  
                   
       // AIが今回生成した「新しい文章」を、PC PALかPUNIのどちらか一方だけが担当する。      
