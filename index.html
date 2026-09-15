@@ -1304,10 +1304,10 @@ body {
 .wn-tile{min-width:0;min-height:0;padding:12px;border-right:1px solid #b8dce8;border-bottom:1px solid #b8dce8;overflow:auto;background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(235,249,253,.94))}
 .wn-tile:nth-child(3),.wn-tile:nth-child(5){border-right:none}.wn-tile:nth-child(4),.wn-tile:nth-child(5){border-bottom:none}
 .wn-random{grid-row:1 / span 2;border-right:1px solid #b8dce8;border-bottom:none}
-.wn-title{height:28px;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#20566c;white-space:nowrap}.wn-content{height:calc(100% - 28px);overflow:auto;font-size:11px}
-.wn-data-grid{display:grid;grid-template-columns:1fr;grid-template-rows:repeat(3,minmax(0,1fr));gap:4px;height:100%;align-content:stretch}.wn-data-item{min-width:0;display:flex;flex-direction:column;justify-content:center}.wn-label{font-size:8px;color:#78919b;text-transform:uppercase;letter-spacing:.04em;line-height:1.2}.wn-value{margin-top:2px;font-size:12px;font-weight:700;color:#17627f;line-height:1.2;overflow-wrap:anywhere}
+.wn-title{height:28px;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#20566c;white-space:nowrap}.wn-content{height:calc(100% - 28px);overflow:hidden;font-size:11px}
+.wn-data-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,minmax(0,auto));gap:8px 14px;height:100%;align-content:start}.wn-data-item{min-width:0;display:flex;flex-direction:column;justify-content:flex-start}.wn-data-item .wn-value{font-size:11px;line-height:1.15}.wn-label{font-size:8px;color:#78919b;text-transform:uppercase;letter-spacing:.04em;line-height:1.2}.wn-value{margin-top:2px;font-size:12px;font-weight:700;color:#17627f;line-height:1.2;overflow-wrap:anywhere}
 .wn-image-card{height:100%;display:flex;flex-direction:column;gap:5px}.wn-image-card img{width:100%;flex:1;min-height:0;object-fit:cover;border-radius:9px;border:1px solid #b8dce8;background:#d9f2fa}.wn-source{flex:0 0 auto;font-size:8px;color:#78919b;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.wn-source a{color:inherit;text-decoration:none}.wn-source a:hover{text-decoration:underline}
-.wn-space-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:6px 10px;height:100%;align-content:stretch}.wn-space-item{min-width:0}.wn-space-label{font-size:8px;color:#78919b;text-transform:uppercase}.wn-space-value{font-size:12px;font-weight:700;color:#17627f;margin-top:1px;overflow-wrap:anywhere}
+.wn-space-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,minmax(0,auto));gap:8px 14px;height:100%;align-content:start}.wn-space-item{min-width:0}.wn-space-value{font-size:11px;line-height:1.15}.wn-space-label{font-size:8px;color:#78919b;text-transform:uppercase}.wn-space-value{font-size:12px;font-weight:700;color:#17627f;margin-top:1px;overflow-wrap:anywhere}
 .wn-random-wrap{height:100%;display:flex;flex-direction:column;gap:7px}.wn-place-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:0 0 auto;min-width:0}.wn-place-name{font-size:15px;font-weight:700;color:#17627f;line-height:1.15;overflow-wrap:anywhere}.wn-coord{font-size:8px;color:#78919b;margin-top:3px}.wn-weather-big{font-size:16px;font-weight:700;color:#237b61}.wn-weather-line{font-size:9px;line-height:1.35;color:#4d7180}.wn-map{flex:1;min-height:0;display:flex;flex-direction:column;gap:4px}.wn-map iframe{width:100%;height:100%;min-height:0;border:1px solid #b8dce8;border-radius:9px;background:#d9f2fa}.wn-map-note{font-size:8px;color:#78919b;flex:0 0 auto}.wn-loading{height:100%;display:flex;align-items:center;justify-content:center;color:#91aab3;font-size:11px}
 @media(max-width:700px){.world-news-popup{width:94vw;height:82vh;border-radius:15px}.world-news-grid{height:calc(100% - 54px)}.wn-tile{padding:8px}.wn-title{font-size:10px}.wn-value,.wn-space-value{font-size:10px}.wn-place-name{font-size:12px}.wn-weather-big{font-size:13px}}
 
@@ -2169,13 +2169,13 @@ async function loadWorldNews(){
     if(!res.ok) throw new Error("WORLD NEWS data HTTP "+res.status);
     const d=await res.json();
     const p=d.globalPulse||{};
-    // 表示するのは「意味のある観測・指標」だけ。
-    // DAY / NIGHT は地球の照明半球が面積上ほぼ50/50になる数学的定数なので除外。
-    // CLOUD COVER は世界平均ではなくMETAR観測局の平均なのでGLOBAL PULSEから除外。
     const items=[
       ["WORLD POPULATION",p.population&&p.population.display],
       ["CO₂",p.co2&&p.co2.display],
-      ["GEOMAGNETIC",p.geomagnetic&&p.geomagnetic.display]
+      ["SEA SURFACE",p.seaSurface&&p.seaSurface.display],
+      ["GEOMAGNETIC",p.geomagnetic&&p.geomagnetic.display],
+      ["DAY / NIGHT",p.dayNight&&p.dayNight.display],
+      ["CLOUD COVER",p.cloudCover&&p.cloudCover.display]
     ];
     pulse.innerHTML='<div class="wn-data-grid">'+items.map(x=>'<div class="wn-data-item"><div class="wn-label">'+wnEsc(x[0])+'</div><div class="wn-value">'+wnVal(x[1])+'</div></div>').join('')+'</div>';
     const r=d.randomPlace||{};
@@ -2187,14 +2187,15 @@ async function loadWorldNews(){
     }
     const sw=d.space||{};
     const solar=sw.solarWind||{},mag=sw.magneticField||{},kp=sw.kp||{},flux=sw.flux10cm||{};
-    // 「NO DATA」のまま固定されていたAURORA、単なる時刻表示だったINTERPLANETARY、
-    // 曖昧なSOLAR ACTIVITY表記を整理。実際に値を持つSWPC指標だけを表示する。
-    space.innerHTML='<div class="wn-space-grid">'+[
+    const spaceItems=[
       ["SOLAR WIND",solar.speed??solar.proton_speed," km/s"],
       ["MAGNETIC FIELD",mag.bt," nT"],
-      ["KP",kp.kp??kp.Kp,""],
-      ["10cm FLUX",flux.flux," sfu"]
-    ].map(x=>'<div class="wn-space-item"><div class="wn-space-label">'+wnEsc(x[0])+'</div><div class="wn-space-value">'+(x[1]==null?'NO DATA':wnEsc(x[1])+x[2])+'</div></div>').join('')+'</div>';
+      ["INTERPLANETARY",sw.interplanetary??sw.interplanetaryTime??sw.timestamp??sw.updatedAt,""],
+      ["AURORA",sw.aurora?.display??sw.aurora?.max??sw.aurora,""],
+      ["SOLAR ACTIVITY",sw.solarActivity?.display??sw.solarActivity?.flux??flux.flux," sfu"],
+      ["KP",kp.kp??kp.Kp,"" ]
+    ];
+    space.innerHTML='<div class="wn-space-grid">'+spaceItems.map(x=>'<div class="wn-space-item"><div class="wn-space-label">'+wnEsc(x[0])+'</div><div class="wn-space-value">'+(x[1]==null?'NO DATA':wnEsc(x[1])+x[2])+'</div></div>').join('')+'</div>';
     const i1=document.getElementById("wnImage1"),i2=document.getElementById("wnImage2");
     const img1=(d.images&&d.images.media1)||"world-media/media1.jpg",img2=(d.images&&d.images.media2)||"world-media/media2.jpg";
     i1.src=(img1.startsWith("http")?img1:WORLD_NEWS_BASE+img1.replace(/^\.\//,""))+"?t="+Date.now();
