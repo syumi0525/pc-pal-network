@@ -669,6 +669,663 @@ body {
 .ad-disclosure{padding:0 12px 10px;color:#075873;font-size:9px;line-height:1.35;text-align:center;opacity:.9}  
 @media (max-width:700px){.ad-popup{width:min(430px,82vw)}.ad-popup-body{gap:10px;padding:11px}.ad-product-image{width:115px;height:115px;flex-basis:115px}.ad-product-title{font-size:12px}}  
   
+/* ===== PC PAL GAME / OTHELLO (isolated addition) ===== */
+/* ===== GAME / OTHELLO ===== */
+.pcpal-game-icon{position:absolute;right:8px;top:calc(14% + 154px);z-index:200;}
+.pcpal-game-art{position:relative;width:46px;height:38px;margin:0 auto 5px}
+.pcpal-game-board-icon{position:absolute;left:5px;top:2px;width:34px;height:34px;border:2px solid rgba(255,255,255,.96);border-radius:6px;background:rgba(205,250,255,.28);box-shadow:0 2px 7px rgba(0,50,80,.25),inset 1px 1px 4px rgba(255,255,255,.92);backdrop-filter:blur(2px)}
+.pcpal-game-board-icon::before{content:"";position:absolute;left:50%;top:3px;width:1px;height:28px;background:rgba(255,255,255,.96);transform:translateX(-50%);box-shadow:0 0 1px rgba(255,255,255,.8)}
+.pcpal-game-board-icon::after{content:"";position:absolute;left:3px;top:50%;width:28px;height:1px;background:rgba(255,255,255,.96);transform:translateY(-50%);box-shadow:0 0 1px rgba(255,255,255,.8)}
+.pcpal-game-piece-icon{position:absolute;width:10px;height:10px;border-radius:50%;border:1px solid rgba(255,255,255,.96);box-shadow:0 1px 3px rgba(0,40,70,.25),inset 1px 1px 2px rgba(255,255,255,.85);z-index:2}
+.pcpal-game-piece-icon.one{left:3px;top:3px;background:rgba(235,255,255,.72)}
+.pcpal-game-piece-icon.two{right:3px;bottom:3px;background:rgba(85,205,235,.62)}
+.pcpal-game-piece-icon.three{right:3px;top:3px;background:rgba(85,205,235,.62)}
+.pcpal-game-piece-icon.four{left:3px;bottom:3px;background:rgba(235,255,255,.72)}
+.pcpal-othello-popup{position:fixed;left:50%;top:50%;width:min(450px,80vw);transform:translate(-50%,-50%) scale(.94);padding:0;border-radius:12px;background:linear-gradient(145deg,rgba(225,255,255,.78),rgba(120,225,245,.62));border:2px solid rgba(255,255,255,.9);box-shadow:0 18px 45px rgba(0,55,90,.38),inset 1px 1px 5px rgba(255,255,255,.95);backdrop-filter:blur(10px);z-index:2147483000;opacity:0;pointer-events:none;overflow:hidden;transition:opacity .16s ease,transform .16s ease;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#075873}
+.pcpal-othello-popup.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.pcpal-othello-titlebar{height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 12px;background:linear-gradient(180deg,rgba(170,245,255,.8),rgba(30,175,220,.72));border-bottom:1px solid rgba(255,255,255,.85);color:#fff;font-size:14px;font-weight:700;text-shadow:0 1px 3px rgba(0,70,100,.65)}
+.pcpal-othello-close{width:23px;height:21px;padding:0;border:1px solid rgba(255,255,255,.95);border-radius:5px;background:rgba(235,255,255,.58);box-shadow:inset 1px 1px 2px rgba(255,255,255,.9);color:#075873;font:bold 15px Arial,sans-serif;line-height:18px;cursor:pointer}
+.pcpal-othello-body{padding:12px;text-align:center}
+.pcpal-othello-status{min-height:22px;margin-bottom:8px;font-size:12px;font-weight:700;color:#075873}
+.pcpal-othello-board{position:relative;z-index:2147483001;display:grid;grid-template-columns:repeat(8,1fr);width:min(350px,68vw);aspect-ratio:1;margin:0 auto 10px;padding:4px;gap:2px;border:2px solid rgba(255,255,255,.92);border-radius:10px;background:rgba(35,185,190,.48);box-shadow:0 4px 12px rgba(0,70,90,.28),inset 1px 1px 4px rgba(255,255,255,.72);backdrop-filter:blur(4px)}
+.pcpal-othello-cell{position:relative;z-index:2147483002;border:1px solid rgba(255,255,255,.28);border-radius:4px;background:rgba(70,215,205,.28);cursor:pointer;min-width:0;min-height:0;padding:0;touch-action:manipulation}
+.pcpal-othello-cell:hover{background:rgba(190,255,255,.38);box-shadow:inset 0 0 0 1px rgba(255,255,255,.6)}
+.pcpal-othello-cell.pcpal-disabled{cursor:default}
+.pcpal-othello-piece{position:absolute;inset:10%;border-radius:50%;pointer-events:none;box-shadow:0 2px 4px rgba(0,60,80,.25),inset 2px 2px 4px rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.75)}
+.pcpal-othello-piece.black{background:radial-gradient(circle at 32% 25%,rgba(220,255,255,.92),rgba(55,185,220,.72) 38%,rgba(20,105,170,.68) 75%,rgba(0,75,130,.62))}
+.pcpal-othello-piece.white{background:radial-gradient(circle at 32% 25%,rgba(255,255,255,.95),rgba(215,255,255,.7) 45%,rgba(110,220,240,.52) 78%,rgba(55,170,205,.48))}
+.pcpal-othello-info{display:flex;justify-content:center;gap:18px;margin-bottom:9px;font-size:11px;font-weight:700}.pcpal-othello-actions{display:flex;justify-content:center;gap:7px}.pcpal-othello-new{padding:6px 12px;border:1px solid rgba(255,255,255,.9);border-radius:7px;background:rgba(225,255,255,.62);color:#075776;font-weight:700;font-size:11px;cursor:pointer;box-shadow:inset 1px 1px 2px rgba(255,255,255,.9),0 2px 5px rgba(0,60,100,.18)}
+@media(max-width:700px){.pcpal-othello-popup{width:min(400px,88vw)}.pcpal-othello-board{width:min(330px,76vw)}}
+
+/* CSS製キーボードアイコンのスタイル */          
+.desktop-keyboard-art {          
+  position: absolute;          
+  left: 3px;          
+  top: 3px;          
+  width: 40px;          
+  height: 28px;          
+  background: linear-gradient(135deg, #f0fdff, #c3eef5);          
+  border: 2px solid #ffffff;          
+  border-radius: 5px;          
+  box-shadow: 0 2px 6px rgba(0,50,80,.4), inset 0 1px 2px rgba(255,255,255,.8);          
+  display: flex;          
+  flex-direction: column;          
+  justify-content: center;          
+  align-items: center;          
+  gap: 2px;          
+  padding: 3px;          
+}          
+.kb-row {          
+  width: 100%;          
+  height: 4px;          
+  background: #78c5dc;          
+  border-radius: 1px;          
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6);          
+}          
+        
+/* ===== PUNIアイコン ===== */      
+.puni-icon {      
+  position: absolute;      
+  left: -2px;      
+  top: 1px;      
+  width: 46px;      
+  height: 42px;      
+}      
+.puni-icon-head {      
+  position: absolute;      
+  left: 11px;      
+  top: 0;      
+  width: 24px;      
+  height: 24px;      
+  border-radius: 50%;      
+  background: radial-gradient(circle at 35% 25%, #ffffff 0 7%, #b9f5ff 8% 18%, #42bde8 35%, #1475c4 70%, #07528f 100%);      
+  border: 3px solid white;      
+  box-shadow: 0 2px 7px rgba(0,50,80,.45), inset -3px -4px 7px rgba(0,55,110,.22);      
+  z-index: 2;      
+}      
+.puni-icon-body {      
+  position: absolute;      
+  left: 10px;      
+  top: 19px;      
+  width: 26px;      
+  height: 20px;      
+  border-radius: 50% 50% 45% 45% / 65% 65% 40% 40%;      
+  background: linear-gradient(135deg, #f4feff 0%, #bdeff8 25%, #50c7e8 55%, #1579c1 100%);      
+  border: 3px solid white;      
+  box-shadow: 0 2px 7px rgba(0,50,80,.42), inset 3px 3px 5px rgba(255,255,255,.75), inset -4px -4px 6px rgba(0,75,120,.18);      
+  z-index: 1;      
+}      
+      
+/* ===== 野原に登場するプニプニ人間のスタイル＆アニメーション ===== */        
+.resident {        
+  position: absolute;        
+  width: 34px;        
+  height: 48px;        
+  cursor: pointer;        
+  transition: transform 0.2s;        
+  pointer-events: auto;        
+  z-index: 7; /* PCくん(8)やアイコンより下、背景・野原・風車より上のレイヤー */        
+  transform-origin: bottom center;    
+}        
+        
+.resident .personHead {        
+  position: absolute;        
+  left: 9px;        
+  top: 0;        
+  width: 16px;        
+  height: 16px;        
+  border-radius: 50%;        
+  border: 1.5px solid rgba(255,255,255,.85);        
+  box-shadow: 0 2px 7px rgba(0,100,110,.12), inset 0 2px 4px rgba(255,255,255,.65);        
+  z-index: 2;        
+}        
+        
+.resident .personBody {        
+  position: absolute;        
+  left: 5px;        
+  top: 14px;        
+  width: 24px;        
+  height: 22px; /* 縦に縮めた胴体 */        
+  border-radius: 45% 45% 30% 30%;        
+  border: 1.5px solid rgba(255,255,255,.82);        
+  box-shadow: inset 3px 3px 6px rgba(255,255,255,.55), inset -4px -5px 7px rgba(0,90,100,.1), 0 3px 8px rgba(0,80,90,.13);        
+  animation: personIdle .9s ease-in-out infinite alternate;        
+  z-index: 1;        
+}        
+        
+@keyframes personIdle {        
+  from { transform: scaleX(.97) translateY(0); }        
+  to { transform: scaleX(1.03) translateY(-1px); }        
+}        
+        
+.resident .arm {        
+  position: absolute;        
+  top: 18px;        
+  width: 7px;        
+  height: 14px;        
+  border-radius: 8px;        
+  border: 1px solid rgba(255,255,255,.65);        
+  transform-origin: top;        
+  z-index: 1;        
+}        
+.resident .arm.left { left: 1px; transform: rotate(12deg); }        
+.resident .arm.right { right: 1px; transform: rotate(-12deg); }        
+        
+.resident .leg {        
+  position: absolute;        
+  top: 33px;        
+  width: 7px;        
+  height: 8px;        
+  border-radius: 5px;        
+  border: 1px solid rgba(255,255,255,.65);        
+  z-index: 2;        
+}        
+.resident .leg.left { left: 8px; }        
+.resident .leg.right { right: 8px; }        
+        
+/* 緑カラーテーマ */        
+.rGreen .personHead {        
+  background: radial-gradient(circle at 35% 25%, rgba(255,255,255,.9), rgba(166,235,154,.58) 40%, rgba(76,174,101,.42));        
+}        
+.rGreen .personBody {        
+  background: linear-gradient(135deg, rgba(255,255,255,.65), rgba(128,215,124,.52), rgba(61,151,81,.35));        
+}        
+.rGreen .arm, .rGreen .leg {        
+  background: linear-gradient(135deg, rgba(140,230,140,.55), rgba(60,160,80,.45));        
+}        
+        
+/* 水色カラーテーマ */        
+.rBlue .personHead {        
+  background: radial-gradient(circle at 35% 25%, rgba(255,255,255,.95), rgba(100,210,255,.7) 40%, rgba(0,130,210,.5));        
+}        
+.rBlue .personBody {        
+  background: linear-gradient(135deg, rgba(255,255,255,.8), rgba(60,210,255,.65) 45%, rgba(0,140,215,.5));        
+}        
+.rBlue .arm, .rBlue .leg {        
+  background: linear-gradient(180deg, rgba(115,225,255,.55), rgba(30,165,215,.45));        
+}        
+        
+@keyframes poyoWalk {        
+  0% { transform: translateY(0) scaleX(var(--puni-direction, 1)) scale(1.4); }        
+  50% { transform: translateY(-6px) scaleX(var(--puni-direction, 1)) scale(1.344, 1.456); }        
+  100% { transform: translateY(0) scaleX(var(--puni-direction, 1)) scale(1.4); }        
+}        
+.resident-walking {        
+  animation: poyoWalk 0.5s ease-in-out infinite;        
+}        
+/* PUNIが喋っている時に表示する3本の曲線電波 */    
+.puni-wifi {    
+  position: absolute;    
+  left: 50%;    
+  top: -22px;    
+  width: 34px;    
+  height: 24px;    
+  transform: translateX(-50%);    
+  z-index: 4;    
+  pointer-events: none;    
+  opacity: 0;    
+}    
+.resident.puni-speaking .puni-wifi { opacity: 1; }    
+.puni-wifi span {    
+  position: absolute;    
+  left: 50%;    
+  bottom: 0;    
+  border: 2px solid rgba(255,255,255,.5);    
+  border-bottom: 0;    
+  border-left-color: transparent;    
+  border-right-color: transparent;    
+  border-radius: 50% 50% 0 0;    
+  transform: translateX(-50%);    
+  filter: drop-shadow(0 0 2px rgba(255,255,255,.18)) drop-shadow(0 1px 2px rgba(0,70,100,.16));    
+  opacity: 0;    
+}    
+.puni-wifi span:nth-child(1) { width: 11px; height: 8px; animation: puniWifiStep 1.2s linear infinite; }    
+.puni-wifi span:nth-child(2) { width: 21px; height: 14px; animation: puniWifiStep 1.2s linear infinite .12s; }    
+.puni-wifi span:nth-child(3) { width: 31px; height: 20px; animation: puniWifiStep 1.2s linear infinite .24s; }    
+@keyframes puniWifiStep {    
+  0%, 24% { opacity: 1; }    
+  25%, 100% { opacity: 0; }    
+}    
+    
+/* PUNIが喋っている時は、少しだけ動きを大きくする */      
+.resident.puni-speaking .personBody { animation: puniTalkBody .32s ease-in-out infinite; }      
+.resident.puni-speaking .arm.left { animation: puniTalkArmLeft .28s ease-in-out infinite alternate; }      
+.resident.puni-speaking .arm.right { animation: puniTalkArmRight .28s ease-in-out infinite alternate; }      
+@keyframes puniTalkBody {      
+  0%,100% { transform: scaleX(1) scaleY(1) translateY(0); }      
+  25% { transform: scaleX(1.06) scaleY(1.10) translateY(-3px) rotate(-1deg); }      
+  50% { transform: scaleX(1.08) scaleY(1.13) translateY(-4px) rotate(1deg); }      
+  75% { transform: scaleX(1.04) scaleY(1.07) translateY(-2px) rotate(-1deg); }      
+}      
+@keyframes puniTalkArmLeft {      
+  from { transform: rotate(18deg) translateY(0); }      
+  to { transform: rotate(-28deg) translateY(-1px); }      
+}      
+@keyframes puniTalkArmRight {      
+  from { transform: rotate(-18deg) translateY(0); }      
+  to { transform: rotate(28deg) translateY(-1px); }      
+}        
+          
+.video-title {                        
+  position: absolute;                        
+  left: 2%;                        
+  top: 3%;                        
+  padding: .7% 1.2%;                        
+  background: rgba(0,70,100,.65);                        
+  color: white;                        
+  font-size: clamp(10px, 1.2vw, 18px);                        
+  border-radius: 4px;                        
+  z-index: 10;                        
+}                        
+.video-label {                        
+  position: absolute;                        
+  left: 2%;                        
+  bottom: 3%;                        
+  color: white;                        
+  font-family: monospace;                        
+  font-size: clamp(9px, 1vw, 15px);                        
+  text-shadow: 0 1px 3px #00364d;                        
+  z-index: 10;                        
+}                        
+.panel {                        
+  position: absolute;                        
+  right: 2%;                        
+  width: 31%;                        
+  border-radius: 8px;                        
+  background:                        
+    linear-gradient(                        
+      to bottom,                        
+      rgba(255,255,255,.97),                        
+      rgba(197,243,255,.88)                        
+    );                        
+  border: 2px solid white;                        
+  box-shadow:                        
+    0 5px 13px rgba(0,60,100,.35),                        
+    inset 0 1px white;                        
+  overflow: hidden;                        
+  z-index: 15;                        
+}                        
+.panel-title {                        
+  height: 19%;                        
+  display: flex;                        
+  align-items: center;                        
+  padding: 0 4%;                        
+  background: linear-gradient(to bottom, #ffffff, #69c8e8);                        
+  border-bottom: 1px solid #4399b9;                        
+  font-size: clamp(11px, 1.18vw, 18px);                        
+  font-weight: bold;                        
+  color: #075776;                        
+  white-space: nowrap;                        
+}                        
+.panel.info {                        
+  top: 9.5%;                        
+  height: 32%;                        
+}                        
+.panel.chat {                        
+  top: 43%;                        
+  height: 34%;                        
+}                        
+.info-body {                        
+  padding: 3.5% 4%;                        
+  font-size: clamp(10px, 1.08vw, 16px);                        
+  line-height: 1.5;                        
+}                        
+.program {                        
+  font-size: clamp(13px, 1.35vw, 20px);                        
+  font-weight: bold;                        
+  color: #086488;                        
+  margin-bottom: 2%;                        
+}                        
+.now {                        
+  display: inline-block;                        
+  padding: .7% 2.5%;                        
+  border-radius: 4px;                        
+  background: #00a9d6;                        
+  color: white;                        
+  font-size: clamp(9px, .9vw, 13px);                        
+  font-weight: bold;                        
+}                        
+.chat-body {                        
+  height: 81%;                        
+  padding: 1.5% 4%;                        
+  overflow: hidden;                        
+  font-size: clamp(9px, .98vw, 14px);                        
+  line-height: 1.55;                        
+}                        
+.chat-line {                        
+  margin-bottom: 1%;                        
+  animation: chatIn .4s ease;                        
+}                        
+@keyframes chatIn {                        
+  from { opacity: 0; transform: translateY(5px); }                        
+  to { opacity: 1; transform: translateY(0); }                        
+}                        
+.name {                        
+  font-weight: bold;                        
+  color: #0077a0;                        
+}                        
+.chat-line .name.you-name {                        
+  color: #e74411;                        
+}                        
+.name-pcpal {                        
+  font-weight: bold;                        
+  color: #0044ff;                        
+}                        
+.comment {                        
+  color: #245b70;                        
+}                        
+.bottom {                        
+  position: absolute;                        
+  left: 2%;                        
+  right: 2%;                        
+  bottom: 3.5%;                        
+  height: 16%;                        
+  display: flex;                        
+  gap: 1.5%;                        
+  z-index: 16;                        
+}                        
+.music {                        
+  flex: 1 1 auto;                        
+  min-width: 0;                        
+  border-radius: 8px;                        
+  background: linear-gradient(to bottom, rgba(255,255,255,.97), rgba(170,235,251,.9));                        
+  border: 2px solid white;                        
+  box-shadow: 0 4px 11px rgba(0,60,100,.3);                        
+  padding: 1.2% 1.5%;                        
+  display: flex;                        
+  flex-direction: column;                        
+  justify-content: space-between;                        
+  overflow: hidden;                        
+}                        
+.music-small {                        
+  font-size: clamp(8px, .72vw, 11px);                        
+  color: #3f7e92;                        
+  font-family: monospace;                        
+  display: flex;                    
+  justify-content: space-between;                    
+  align-items: center;                    
+}                        
+.music-name {                        
+  font-size: clamp(11px, 1.2vw, 17px);                        
+  font-weight: bold;                        
+  color: #075d7d;                        
+  white-space: nowrap;                        
+  overflow: hidden;                        
+  text-overflow: ellipsis;                        
+}                        
+.player-row {                    
+  display: flex;                    
+  align-items: center;                    
+  justify-content: space-between;                    
+  gap: 8px;                    
+}                    
+.player-controls {                    
+  display: flex;                    
+  gap: 4px;                    
+}                    
+.player-btn {                    
+  background: linear-gradient(to bottom, #ffffff, #d2eff8);                    
+  border: 1px solid #7bc5e3;                    
+  border-radius: 4px;                    
+  padding: 2px 8px;                    
+  cursor: pointer;                    
+  font-size: 11px;                    
+  font-weight: bold;                    
+  color: #075d7d;                    
+  transition: all 0.2s;                    
+}                    
+.player-btn:hover {                    
+  background: linear-gradient(to bottom, #ffffff, #aee5f5);                    
+  border-color: #4399b9;                    
+}                    
+.pc-small {                        
+  width: 24%;                        
+  flex: none;                        
+  border-radius: 8px;                        
+  background: linear-gradient(to bottom, rgba(255,255,255,.97), rgba(171,238,252,.9));                        
+  border: 2px solid white;                        
+  box-shadow: 0 4px 11px rgba(0,60,100,.28), inset 0 1px white;                        
+  position: relative;                        
+  overflow: hidden;                        
+  cursor: pointer;                    
+}                        
+.pc-small.fusion-mode {                    
+  border: 2px solid #55ff55;                    
+  box-shadow: 0 4px 15px rgba(85, 255, 85, 0.6), inset 0 1px white;                    
+}                        
+.pc-small.survival-mode {                    
+  border: 2px solid #00ffff;                    
+  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.6), inset 0 1px white;                    
+}                        
+.pc-small::before {                        
+  content: "";                        
+  position: absolute;                        
+  left: 2%;                        
+  right: 2%;                        
+  top: 5%;                        
+  bottom: 5%;                        
+  border-radius: 6px;                        
+  background: linear-gradient(to bottom, rgba(190,250,255,.86), rgba(50,197,227,.84) 52%, rgba(0,130,177,.92));                        
+  border: 2px solid rgba(255,255,255,.92);                        
+  box-shadow: inset 0 3px 8px rgba(255,255,255,.7), inset 0 -8px 15px rgba(0,80,130,.18);                        
+  z-index: 0;                        
+  pointer-events: none;                    
+}                        
+.pc-small::after {                        
+  content: "";                        
+  position: absolute;                        
+  left: 7%;                        
+  top: 8%;                        
+  width: 25%;                        
+  height: 70%;                        
+  border-radius: 50%;                        
+  background: linear-gradient(90deg, rgba(255,255,255,.32), rgba(255,255,255,0));                        
+  transform: rotate(8deg);                        
+  pointer-events: none;                        
+  z-index: 100;                        
+}                        
+.mini-seaweed {                        
+  position: absolute;                        
+  bottom: 3%;                        
+  width: 8%;                        
+  height: 25%;                        
+  border-radius: 50% 50% 20% 20%;                        
+  background: linear-gradient(90deg, #126f45, #39a65c, #176b43);                        
+  transform-origin: bottom center;                        
+  z-index: 3;                        
+  opacity: .9;                        
+  pointer-events: none;                    
+  animation: seaweedSway 3.5s ease-in-out infinite;                        
+}                        
+.mini-seaweed.one { left: 9%; height: 24%; }                        
+.mini-seaweed.two { left: 17%; height: 32%; animation-delay: -.8s; }                        
+.mini-seaweed.three { right: 12%; height: 28%; animation-delay: -1.4s; }                        
+.mini-seaweed.four { right: 7%; height: 20%; animation-delay: -2.1s; }                        
+@keyframes seaweedSway {                        
+  0%,100% { transform: rotate(-5deg); }                        
+  50% { transform: rotate(7deg); }                        
+}                        
+.mini-bubble {                        
+  position: absolute;                        
+  bottom: -10%;                        
+  width: 5px;                        
+  height: 5px;                        
+  border-radius: 50%;                        
+  border: 1px solid rgba(255,255,255,.85);                        
+  background: rgba(255,255,255,.18);                        
+  box-shadow: 0 0 3px rgba(255,255,255,.55);                        
+  z-index: 5;                        
+  pointer-events: none;                    
+  animation: miniBubbleRise 4s linear infinite;                        
+}                        
+.mini-bubble.one { left: 31%; }                        
+.mini-bubble.two { left: 48%; animation-delay: 1.2s; width: 4px; height: 4px; }                        
+.mini-bubble.three { left: 68%; animation-delay: 2.3s; width: 6px; height: 6px; }                        
+.mini-bubble.four { left: 77%; animation-delay: .7s; width: 3px; height: 3px; }                        
+@keyframes miniBubbleRise {                        
+  0% { transform: translateY(0) translateX(0); opacity: 0; }                        
+  12% { opacity: .8; }                        
+  50% { transform: translateY(-55%) translateX(5px); }                        
+  100% { transform: translateY(-850%) translateX(-4px); opacity: 0; }                        
+}                        
+.mini-fish {                        
+  position: absolute;                        
+  z-index: 10;                        
+  line-height: 1;                        
+  user-select: none;                        
+  pointer-events: none;                        
+  filter: drop-shadow(0 1px 1px rgba(0,60,80,.25));                        
+  will-change: transform;                        
+}                        
+.mini-fish.new {                        
+  animation: fishAppear .7s ease-out forwards;                        
+}                        
+@keyframes fishAppear {                        
+  from { opacity: 0; transform: scale(.2); }                        
+  60% { transform: scale(1.15); }                        
+  to { opacity: 1; transform: scale(1); }                        
+}                        
+.status {                        
+  width: 32.2916667%;                        
+  flex: none;                        
+  border-radius: 8px;                        
+  background: rgba(239,253,255,.94);                        
+  border: 2px solid white;                        
+  box-shadow: 0 4px 11px rgba(0,60,100,.28);                        
+  padding: 1.7% 2%;                        
+  font-family: monospace;                        
+  font-size: clamp(7px, .62vw, 9px);                        
+  color: #34778d;                        
+  line-height: 1.45;                        
+  overflow: hidden;                        
+  display: flex;                  
+  flex-direction: column;                  
+  justify-content: space-between;                  
+}                        
+.green {                        
+  color: #008c63;                        
+  font-weight: bold;                        
+}                        
+#aiStartBtn {                  
+  margin-top: 4px;                  
+  width: 100%;                  
+  padding: 4px;                  
+  background: #2563eb;                  
+  color: white;                  
+  border: none;                  
+  border-radius: 4px;                  
+  font-size: 9px;                  
+  font-weight: bold;                  
+  cursor: pointer;                  
+  transition: background 0.2s;                  
+}                  
+#aiStartBtn.loading { background: #d97706; }                  
+#aiStartBtn.running { background: #2e8b57; }                  
+#aiStartBtn:disabled { background: #475569; cursor: not-allowed; }                  
+                  
+.marquee {                        
+  position: absolute;                        
+  right: 2%;                        
+  width: 31%;                        
+  top: 78.5%;                        
+  height: 3%;                        
+  overflow: hidden;                        
+  background: #07506b;                        
+  border: 1px solid rgba(255,255,255,.9);                        
+  color: white;                        
+  font-family: monospace;                        
+  font-size: clamp(8px, .72vw, 11px);                        
+  line-height: 100%;                        
+  padding: .4% 1%;                        
+  white-space: nowrap;                        
+  z-index: 17;                        
+}                        
+.marquee span {                        
+  display: inline-block;                        
+  animation: marquee 28s linear infinite;                        
+}                        
+@keyframes marquee {                        
+  from { transform: translateX(100%); }                        
+  to { transform: translateX(-100%); }                        
+}                        
+.popup {                        
+  position: absolute;                        
+  left: 50%;                        
+  top: 42%;                        
+  transform: translate(-50%,-50%) scale(.9);                        
+  padding: 1.2% 2%;                        
+  border-radius: 9px;                        
+  background: linear-gradient(to bottom, #ffffff, #aee8f8);                        
+  border: 2px solid white;                        
+  box-shadow: 0 7px 20px rgba(0,60,100,.4);                        
+  font-size: clamp(10px, 1vw, 15px);                        
+  font-weight: bold;                        
+  color: #075873;                        
+  z-index: 30;                        
+  opacity: 0;                        
+  pointer-events: none;                        
+}                        
+.popup.show {                        
+  animation: popupShow 3.5s ease forwards;                        
+}                        
+@keyframes popupShow {                        
+  0% { opacity: 0; transform: translate(-50%,-50%) scale(.85); }                        
+  15% { opacity: 1; transform: translate(-50%,-50%) scale(1); }                        
+  80% { opacity: 1; }                        
+  100% { opacity: 0; transform: translate(-50%,-50%) scale(.98); }                        
+}                        
+.corner {                        
+  position: absolute;                        
+  font-family: monospace;                        
+  font-size: clamp(8px, .7vw, 11px);                        
+  color: rgba(255,255,255,.9);                        
+  z-index: 25;                        
+}                        
+.corner.a { left: 2%; bottom: .5%; z-index: 3; }                        
+.corner.b { right: 2%; top: 9.5%; }                        
+@media (max-aspect-ratio: 1/1) {                        
+  #canvas {                        
+    width: 177.777vh;                        
+    height: 100vh;                        
+  }                        
+}                        
+          
+/* ===== NETWORK SPACE WORLDS ===== */          
+.channel-world{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .35s ease}          
+.channel-04 .channel-world,.channel-05 .channel-world,.channel-06 .channel-world,.channel-07 .channel-world,.channel-08 .channel-world,.channel-09 .channel-world,.channel-10 .channel-world,.channel-01 .channel-world,.channel-02 .channel-world{opacity:1}          
+.channel-04 .channel-world{background:radial-gradient(circle at 18% 24%,rgba(255,255,255,.75) 0 1.5%,transparent 1.7%),radial-gradient(circle at 72% 17%,rgba(255,255,255,.55) 0 2%,transparent 2.2%),radial-gradient(circle at 48% 58%,rgba(75,220,255,.35) 0 18%,transparent 19%),linear-gradient(180deg,#8ff4ff 0%,#20cbe7 42%,#0078a9 100%)}          
+.channel-04 .channel-world:before{content:"";position:absolute;left:8%;right:8%;bottom:8%;height:35%;border-radius:50% 50% 8% 8%;background:linear-gradient(180deg,rgba(94,238,255,.18),rgba(0,70,110,.55));border:2px solid rgba(255,255,255,.28);box-shadow:inset 0 0 45px rgba(255,255,255,.18)}          
+.channel-05 .channel-world{background:radial-gradient(circle at 75% 20%,#fff 0 3%,rgba(255,255,255,.3) 4%,transparent 13%),linear-gradient(180deg,#9cf3ff 0%,#49d5ef 48%,#b6f5d0 49%,#38b97c 100%)}          
+.channel-05 .channel-world:before{content:"";position:absolute;left:6%;right:6%;bottom:0;height:55%;background:linear-gradient(90deg,transparent 0 4%,rgba(255,255,255,.7) 4% 12%,transparent 12% 17%,rgba(255,255,255,.55) 17% 27%,transparent 27% 34%,rgba(255,255,255,.7) 34% 45%,transparent 45% 51%,rgba(255,255,255,.5) 51% 64%,transparent 64% 70%,rgba(255,255,255,.65) 70% 84%,transparent 84%);clip-path:polygon(0 100%,0 48%,8% 36%,14% 54%,22% 18%,29% 43%,38% 8%,45% 45%,55% 22%,64% 50%,73% 14%,81% 42%,91% 20%,100% 48%,100% 100%);opacity:.8}          
+.channel-06 .channel-world{background:radial-gradient(circle at 20% 22%,rgba(255,255,255,.9) 0 2%,transparent 2.2%),radial-gradient(circle at 78% 30%,rgba(255,255,255,.7) 0 1.5%,transparent 1.8%),linear-gradient(180deg,#a7f5ff 0 52%,#55d47b 53% 100%)}          
+.channel-06 .channel-world:before{content:"PC  ◻   PC  ◻   PC  ◻   PC";position:absolute;left:8%;right:8%;bottom:18%;height:32%;display:flex;align-items:center;justify-content:space-around;font:bold 4vw monospace;color:rgba(0,112,170,.38);text-shadow:0 3px 0 rgba(255,255,255,.55)}          
+.channel-07 .channel-world{background:linear-gradient(135deg,rgba(255,255,255,.32),transparent 35%),linear-gradient(180deg,#82e9ff 0 45%,#4fc87d 46% 100%)}          
+.channel-07 .channel-world:before{content:"";position:absolute;inset:8% 5% 5%;background:linear-gradient(90deg,rgba(255,255,255,.72) 0 12%,transparent 12% 18%,rgba(255,255,255,.55) 18% 30%,transparent 30% 38%,rgba(255,255,255,.7) 38% 52%,transparent 52% 59%,rgba(255,255,255,.58) 59% 73%,transparent 73% 81%,rgba(255,255,255,.72) 81% 94%,transparent 94%);border-radius:18px;filter:drop-shadow(0 10px 12px rgba(0,80,110,.2));opacity:.75;transform:perspective(400px) rotateX(8deg)}          
+.channel-08 .channel-world{background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.9) 0 3%,transparent 3.5%),repeating-conic-gradient(from 0deg,rgba(255,255,255,.25) 0 12deg,rgba(0,150,210,.15) 12deg 24deg),linear-gradient(135deg,#72dfff,#1768c5 55%,#55d59a)}          
+.channel-08 .channel-world:before{content:"MULTIMEDIA   CD-ROM   1998";position:absolute;left:8%;right:8%;top:18%;bottom:18%;display:flex;align-items:center;justify-content:center;font:bold clamp(18px,4vw,60px) monospace;letter-spacing:.08em;color:rgba(255,255,255,.72);border:2px solid rgba(255,255,255,.5);border-radius:24px;background:rgba(255,255,255,.12)}          
+.channel-09 .channel-world{background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.7) 0 1%,transparent 1.4%),radial-gradient(circle at 65% 52%,rgba(255,255,255,.5) 0 1.5%,transparent 1.9%),linear-gradient(180deg,#56dff4,#087dc2 55%,#034e8b 100%)}          
+.channel-09 .channel-world:before{content:"@   www   ◎   http://   ◇   net";position:absolute;inset:20% 5% 15%;display:flex;align-items:center;justify-content:center;font:bold clamp(18px,3.8vw,58px) monospace;color:rgba(255,255,255,.2);word-spacing:.4em}          
+.channel-10 .channel-world{background:linear-gradient(180deg,#8deeff 0 48%,#5bd184 49% 100%)}          
+.channel-10 .channel-world:before{content:"";position:absolute;left:12%;right:12%;bottom:12%;height:48%;background:linear-gradient(90deg,#f7ffff,#b8eefa 48%,#f7ffff);border:3px solid rgba(255,255,255,.9);border-radius:28px 28px 8px 8px;box-shadow:0 12px 20px rgba(0,80,110,.2)}          
+.channel-10 .channel-world:after{content:"□ □ □ □ □";position:absolute;left:20%;right:20%;bottom:27%;text-align:center;font:bold 3vw monospace;color:#1595bd;letter-spacing:.12em}          
+.channel-01 .channel-world{background:linear-gradient(180deg,#9ceeff 0 44%,#79d98d 45% 100%)}          
+.channel-01 .channel-world:before{content:"";position:absolute;left:7%;right:7%;bottom:8%;height:58%;background:repeating-linear-gradient(90deg,transparent 0 8%,rgba(70,180,210,.7) 8% 10%),repeating-linear-gradient(0deg,transparent 0 18%,rgba(255,255,255,.75) 18% 20%),linear-gradient(90deg,#dffaff,#9bd9ee,#dffaff);border:3px solid white;border-radius:14px;box-shadow:0 12px 22px rgba(0,70,100,.25)}          
+.channel-02 .channel-world{background:radial-gradient(circle at 78% 17%,#fff6a0 0 4%,transparent 4.5%),linear-gradient(180deg,#8feeff 0 48%,#29c9dc 49% 69%,#19a96f 70% 100%)}          
+.channel-02 .channel-world:before{content:"";position:absolute;left:10%;right:10%;bottom:12%;height:35%;border-radius:50%;background:rgba(255,255,255,.2);border-top:4px solid rgba(255,255,255,.65)}          
+.channel-04 .sky,.channel-04 .cloud,.channel-04 .sun,.channel-04 .water,.channel-04 .windmill,.channel-05 .sky,.channel-05 .cloud,.channel-05 .sun,.channel-05 .water,.channel-05 .windmill,.channel-06 .sky,.channel-06 .cloud,.channel-06 .sun,.channel-06 .water,.channel-06 .windmill,.channel-07 .sky,.channel-07 .cloud,.channel-07 .sun,.channel-07 .water,.channel-07 .windmill,.channel-08 .sky,.channel-08 .cloud,.channel-08 .sun,.channel-08 .water,.channel-08 .windmill,.channel-09 .sky,.channel-09 .cloud,.channel-09 .sun,.channel-09 .water,.channel-09 .windmill,.channel-10 .sky,.channel-10 .cloud,.channel-10 .sun,.channel-10 .water,.channel-10 .windmill,.channel-01 .sky,.channel-01 .cloud,.channel-01 .sun,.channel-01 .water,.channel-01 .windmill,.channel-02 .sky,.channel-02 .cloud,.channel-02 .sun,.channel-02 .water,.channel-02 .windmill{display:none}          
+.channel-03 .channel-world{display:none}          
+.channel-01 .video::after,.channel-02 .video::after,.channel-04 .video::after,.channel-05 .video::after,.channel-06 .video::after,.channel-07 .video::after,.channel-08 .video::after,.channel-09 .video::after,.channel-10 .video::after{display:none}          
+          
+/* ===== WORLD NEWS ICON ===== */
+.news-icon-art{position:relative;width:46px;height:38px;margin:0 auto 5px}
+.news-icon-art::before{content:"";position:absolute;left:8px;top:4px;width:29px;height:29px;border-radius:4px;background:linear-gradient(180deg,#f9ffff,#7fcde5);border:2px solid #dffcff;box-shadow:0 2px 5px rgba(0,50,80,.35),inset 0 1px 2px rgba(255,255,255,.9)}
+.news-icon-art::after{content:"";position:absolute;left:14px;top:11px;width:17px;height:3px;border-radius:2px;background:rgba(35,119,157,.72);box-shadow:0 6px 0 rgba(35,119,157,.62),0 12px 0 rgba(35,119,157,.48)}
+.news-icon-art span{position:absolute;z-index:2;left:12px;top:7px;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.62);box-shadow:0 0 3px rgba(255,255,255,.58)}
+
+
+
+/* ===== PC PAL GAME / OTHELLO ===== */
+
 /* CSS製キーボードアイコンのスタイル */          
 .desktop-keyboard-art {          
   position: absolute;          
@@ -1383,6 +2040,20 @@ body {
     <div class="ad-cart-art"><div class="ad-handle"></div><div class="ad-basket"></div></div>  
     <span>AD</span>  
   </div>  
+  <div class="desktop-icon pcpal-game-icon" id="pcpalGameIcon" aria-label="GAME">
+    <div class="pcpal-game-art"><div class="pcpal-game-board-icon"><i class="pcpal-game-piece-icon one"></i><i class="pcpal-game-piece-icon two"></i><i class="pcpal-game-piece-icon three"></i><i class="pcpal-game-piece-icon four"></i></div></div>
+    <span>GAME</span>
+  </div>
+
+  <div class="pcpal-othello-popup" id="pcpalOthelloPopup" aria-hidden="true">
+    <div class="pcpal-othello-titlebar"><span>GAME｜REVERSI</span><button class="pcpal-othello-close" id="pcpalOthelloClose" type="button" aria-label="閉じる">×</button></div>
+    <div class="pcpal-othello-body">
+      <div class="pcpal-othello-status" id="pcpalOthelloStatus">YOU の番です</div>
+      <div class="pcpal-othello-info"><span>YOU: <b id="pcpalYouScore">2</b></span><span>PC: <b id="pcpalPcScore">2</b></span></div>
+      <div class="pcpal-othello-board" id="pcpalOthelloBoard" role="grid" aria-label="リバーシ盤"></div>
+      <div class="pcpal-othello-actions"><button class="pcpal-othello-new" id="pcpalOthelloNew" type="button">NEW GAME</button></div>
+    </div>
+  </div>
 <div class="windmill one">                        
   <div class="windmill-pole"></div>                        
   <div class="windmill-blades">                        
@@ -2151,6 +2822,78 @@ document.addEventListener("click", (event) => {
 });  
           
           
+const pcpalGameIcon=document.getElementById('pcpalGameIcon');
+const pcpalOthelloPopup=document.getElementById('pcpalOthelloPopup');
+const pcpalOthelloClose=document.getElementById('pcpalOthelloClose');
+const pcpalOthelloNew=document.getElementById('pcpalOthelloNew');
+const pcpalOthelloBoard=document.getElementById('pcpalOthelloBoard');
+const pcpalOthelloStatus=document.getElementById('pcpalOthelloStatus');
+const pcpalYouScore=document.getElementById('pcpalYouScore');
+const pcpalPcScore=document.getElementById('pcpalPcScore');
+if(pcpalGameIcon&&pcpalOthelloPopup&&pcpalOthelloBoard){
+  const D=[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+  let b,turn,over;
+  function inside(r,c){return r>=0&&r<8&&c>=0&&c<8}
+  function moves(player){
+    const out=[];
+    for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+      if(b[r][c]!==0)continue;
+      let legal=false;
+      for(const [dr,dc] of D){let rr=r+dr,cc=c+dc,n=0;while(inside(rr,cc)&&b[rr][cc]===-player){n++;rr+=dr;cc+=dc}if(n&&inside(rr,cc)&&b[rr][cc]===player){legal=true;break}}
+      if(legal)out.push([r,c]);
+    }
+    return out;
+  }
+  function isLegal(r,c,player){return moves(player).some(m=>m[0]===r&&m[1]===c)}
+  function put(r,c,player){
+    b[r][c]=player;
+    for(const [dr,dc] of D){let rr=r+dr,cc=c+dc,flip=[];while(inside(rr,cc)&&b[rr][cc]===-player){flip.push([rr,cc]);rr+=dr;cc+=dc}if(flip.length&&inside(rr,cc)&&b[rr][cc]===player)for(const [fr,fc] of flip)b[fr][fc]=player}
+  }
+  function score(){let y=0,p=0;for(const row of b)for(const v of row){if(v===1)y++;if(v===-1)p++}pcpalYouScore.textContent=y;pcpalPcScore.textContent=p;return[y,p]}
+  function render(){
+    pcpalOthelloBoard.innerHTML='';
+    const legal=turn===1?moves(1):[];
+    for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+      const cell=document.createElement('button');
+      cell.type='button';cell.className='pcpal-othello-cell';cell.dataset.row=r;cell.dataset.col=c;
+      if(b[r][c]){const piece=document.createElement('i');piece.className='pcpal-othello-piece '+(b[r][c]===1?'black':'white');cell.appendChild(piece)}
+      if(!legal.some(m=>m[0]===r&&m[1]===c))cell.classList.add('pcpal-disabled');
+      pcpalOthelloBoard.appendChild(cell);
+    }
+    score();
+  }
+  function finish(){const[y,p]=score();over=true;pcpalOthelloStatus.textContent=y>p?'YOU の勝ち！':p>y?'PC の勝ち！':'引き分け！'}
+  function advance(){
+    const mine=moves(turn),other=moves(-turn);
+    if(mine.length)return true;
+    if(other.length){turn=-turn;pcpalOthelloStatus.textContent=turn===1?'YOU の番です':'PC の番です';render();if(turn===-1)setTimeout(cpuMove,420);return true}
+    finish();return false;
+  }
+  function humanMove(r,c){
+    if(over||turn!==1||!isLegal(r,c,1))return;
+    put(r,c,1);turn=-1;pcpalOthelloStatus.textContent='PC の番です';render();setTimeout(cpuMove,420);
+  }
+  function cpuMove(){
+    if(over||turn!==-1)return;
+    const ms=moves(-1);if(!ms.length){advance();return}
+    let best=ms[0],bestValue=-Infinity;
+    for(const [r,c] of ms){let value=Math.random();if((r===0||r===7)&&(c===0||c===7))value+=100;else if(r===0||r===7||c===0||c===7)value+=12;for(const[dr,dc]of D){let rr=r+dr,cc=c+dc;while(inside(rr,cc)&&b[rr][cc]===1){value+=2;rr+=dr;cc+=dc}}if(value>bestValue){bestValue=value;best=[r,c]}}
+    put(best[0],best[1],-1);turn=1;pcpalOthelloStatus.textContent='YOU の番です';render();advance();
+  }
+  function reset(){b=Array.from({length:8},()=>Array(8).fill(0));b[3][3]=-1;b[3][4]=1;b[4][3]=1;b[4][4]=-1;turn=1;over=false;pcpalOthelloStatus.textContent='YOU の番です';render()}
+  /* Othello popup is moved to BODY so it is not clipped by #canvas overflow:hidden. */
+  if(pcpalOthelloPopup.parentElement!==document.body) document.body.appendChild(pcpalOthelloPopup);
+  pcpalGameIcon.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();pcpalOthelloPopup.classList.add('show');pcpalOthelloPopup.setAttribute('aria-hidden','false');reset()});
+  pcpalOthelloBoard.addEventListener('click',function(e){const cell=e.target.closest('.pcpal-othello-cell');if(!cell||!pcpalOthelloBoard.contains(cell))return;humanMove(Number(cell.dataset.row),Number(cell.dataset.col))});
+  pcpalOthelloBoard.addEventListener('pointerdown',function(e){e.stopPropagation()});
+  pcpalOthelloClose.addEventListener('click',function(){pcpalOthelloPopup.classList.remove('show');pcpalOthelloPopup.setAttribute('aria-hidden','true')});
+  pcpalOthelloNew.addEventListener('click',reset);
+  /* GAMEは外側タッチでは閉じない。閉じる操作は×ボタンだけ。 */
+  pcpalOthelloPopup.addEventListener('click',function(e){e.stopPropagation()});
+  pcpalOthelloPopup.addEventListener('pointerdown',function(e){e.stopPropagation()});
+  reset();
+}
+
 /* ===== WORLD NEWS POPUP ===== */
 const worldNewsIcon=document.getElementById("worldNewsIcon");
 const worldNewsPopup=document.getElementById("worldNewsPopup");
