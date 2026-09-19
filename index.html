@@ -644,8 +644,13 @@ body {
   background: rgba(255,255,255,.65);                    
 }                    
 /* ===== AD SHOP ICON / PRODUCT POPUP ===== */  
-.news-desktop-icon{position:absolute;right:8px;top:14%;z-index:8}
-.ad-shop-icon{position:absolute;right:8px;top:calc(14% + 84px);z-index:8}  
+.mobile-mode-icon{position:absolute;right:8px;top:14%;z-index:8}
+.mobile-mode-art{position:relative;width:46px;height:38px;margin:0 auto 5px}
+.mobile-mode-phone{position:absolute;left:12px;top:1px;width:22px;height:36px;border:3px solid #dffcff;border-radius:5px;background:linear-gradient(180deg,#f9ffff,#72cbe7);box-shadow:0 2px 5px rgba(0,50,80,.38),inset 1px 1px 2px rgba(255,255,255,.9)}
+.mobile-mode-phone::before{content:"";position:absolute;left:2px;right:2px;top:3px;height:20px;border-radius:2px;background:linear-gradient(180deg,#20b9e8,#087fc9);box-shadow:inset 0 1px 2px rgba(255,255,255,.5)}
+.mobile-mode-phone::after{content:"";position:absolute;left:50%;bottom:1px;width:4px;height:4px;border-radius:50%;transform:translateX(-50%);background:#dffcff;box-shadow:0 0 2px rgba(255,255,255,.8)}
+.news-desktop-icon{position:absolute;right:8px;top:calc(14% + 84px);z-index:8}
+.ad-shop-icon{position:absolute;right:8px;top:calc(14% + 252px);z-index:8}  
 .ad-cart-art{position:relative;width:46px;height:38px;margin:0 auto 5px}  
 .ad-basket{position:absolute;z-index:2;left:7px;top:9px;width:30px;height:20px;border:3px solid #dffcff;border-top:0;border-radius:2px 2px 7px 7px;transform:skew(7deg);background:linear-gradient(180deg,rgba(235,252,255,.95),rgba(92,196,225,.78));box-shadow:0 2px 5px rgba(0,50,80,.42),inset 0 1px 2px rgba(255,255,255,.9)}  
 .ad-handle{position:absolute;z-index:0;right:3px;top:0;width:12px;height:12px;border:3px solid #dffcff;border-right:0;border-bottom:0;border-radius:8px 0 0 0;transform:skew(7deg);box-shadow:-1px -1px 3px rgba(0,50,80,.15)}  
@@ -1934,6 +1939,134 @@ body {
 .wn-space-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,minmax(0,auto));gap:8px 14px;height:100%;align-content:start}.wn-space-item{min-width:0}.wn-space-value{font-size:11px;line-height:1.15}.wn-space-label{font-size:8px;color:#78919b;text-transform:uppercase}.wn-space-value{font-size:12px;font-weight:700;color:#17627f;margin-top:1px;overflow-wrap:anywhere}
 .wn-random-wrap{height:100%;display:flex;flex-direction:column;gap:7px}.wn-place-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:0 0 auto;min-width:0}.wn-place-name{font-size:13px;font-weight:700;color:#17627f;line-height:1.15;overflow-wrap:anywhere}.wn-coord{font-size:8px;color:#78919b;margin-top:3px}.wn-weather-big{font-size:14px;font-weight:700;color:#237b61}.wn-weather-line{font-size:9px;line-height:1.35;color:#4d7180}.wn-map{flex:1;min-height:0;display:flex;flex-direction:column;gap:3px}.wn-map iframe{width:100%;height:100%;min-height:0;border:1px solid #b8dce8;border-radius:9px;background:#d9f2fa}.wn-map-note{font-size:8px;color:#78919b;flex:0 0 auto}.wn-loading{height:100%;display:flex;align-items:center;justify-content:center;color:#91aab3;font-size:11px}
 @media(max-width:700px){.world-news-popup{width:90vw;height:62vh;border-radius:12px}.world-news-grid{height:calc(100% - 30px)}.wn-tile{padding:8px}.wn-title{font-size:10px}.wn-value,.wn-space-value{font-size:10px}.wn-place-name{font-size:12px}.wn-weather-big{font-size:13px}}
+
+/* ===== MOBILE MODE: SCROLLING PHONE LAYOUT — fixed =====
+   Desktop 16:9 remains untouched. Mobile is a real scrolling page,
+   keeping the original scene/background and all existing components. */
+@media (max-width:700px){
+  html, body { height:auto !important; min-height:100% !important; overflow-x:hidden !important; overflow-y:auto !important; }
+  body.mobile-mode { background:#031b29 !important; }
+
+  body.mobile-mode #canvas{
+    position:relative !important; left:auto !important; top:auto !important; transform:none !important;
+    width:100% !important; height:auto !important; min-height:100vh !important;
+    max-width:none !important; max-height:none !important; overflow:visible !important;
+    display:flex !important; flex-direction:column !important; align-items:stretch !important;
+    padding:12px 10px 36px !important; gap:12px !important;
+    background:linear-gradient(180deg,#8ff1ff 0%,#18c2e8 42%,#57d58a 100%) !important;
+  }
+
+  /* ① title */
+  body.mobile-mode .topbar{
+    position:relative !important; inset:auto !important; width:100% !important; height:58px !important;
+    min-height:58px !important; margin:0 !important; padding:0 12px !important; flex:none !important;
+    order:1 !important;
+  }
+  body.mobile-mode .topbar .logo{font-size:clamp(21px,6vw,30px) !important;white-space:nowrap !important;}
+  body.mobile-mode .topbar .station,body.mobile-mode .topbar .live{display:none !important;}
+
+  /* ②③: original scene remains alive. Left four icons and PC live inside it. */
+  body.mobile-mode .video{
+    position:relative !important; inset:auto !important; width:100% !important; height:440px !important;
+    min-height:440px !important; margin:0 !important; flex:none !important; display:block !important;
+    overflow:hidden !important; order:2 !important;
+    border-radius:10px !important;
+  }
+  body.mobile-mode .sky,body.mobile-mode .cloud,body.mobile-mode .bubbles,
+  body.mobile-mode .channel-world,body.mobile-mode .sun,body.mobile-mode .water,
+  body.mobile-mode .video-label,body.mobile-mode .marquee{
+    display:block !important;
+  }
+  body.mobile-mode .sky{z-index:0 !important;}
+  body.mobile-mode .channel-world{opacity:1 !important;}
+  body.mobile-mode .desktop-icons{
+    position:absolute !important; left:4% !important; right:4% !important; top:50px !important; bottom:auto !important;
+    width:92% !important; height:72px !important; margin:0 !important; padding:0 !important;
+    display:flex !important; flex-direction:row !important; justify-content:space-between !important;
+    align-items:flex-start !important; gap:4px !important; z-index:20 !important;
+  }
+  body.mobile-mode .desktop-icons > .desktop-icon,body.mobile-mode .desktop-icons > a{
+    position:relative !important; inset:auto !important; width:calc((100% - 12px)/4) !important;
+    height:70px !important; margin:0 !important; padding:3px 0 5px !important; flex:0 0 calc((100% - 12px)/4) !important;
+    transform:none !important;
+  }
+  body.mobile-mode .desktop-icons .desktop-icon-art{margin-left:auto !important;margin-right:auto !important;}
+
+  /* Mobile: restore the scrolling signal bar to the previous comfortable position. */
+  body.mobile-mode .marquee{
+    left:4% !important; right:auto !important; top:auto !important; bottom:0 !important; width:92% !important; height:14px !important;
+    font-size:9px !important; padding:1px 6px !important; z-index:17 !important;
+  }
+  body.mobile-mode .video-label{bottom:8px !important; white-space:nowrap !important;}
+  body.mobile-mode .windmill{opacity:1 !important; filter:none !important; mix-blend-mode:normal !important;}
+
+  body.mobile-mode .pc-large{
+    position:absolute !important; left:50% !important; top:120px !important; right:auto !important; bottom:auto !important;
+    width:320px !important; height:270px !important; margin:0 !important;
+    transform:translateX(-50%) scale(.82) !important; transform-origin:top center !important;
+    animation:none !important; z-index:18 !important;
+  }
+
+  /* ④ right four icons, still over the same original scene */
+  body.mobile-mode #mobileModeIcon,body.mobile-mode .news-desktop-icon,
+  body.mobile-mode .pcpal-game-icon,body.mobile-mode .ad-shop-icon{
+    position:absolute !important; left:auto !important; right:auto !important; bottom:auto !important;
+    width:72px !important; height:72px !important; margin:0 !important; padding:3px 0 5px !important;
+    transform:none !important; z-index:21 !important;
+  }
+  body.mobile-mode #mobileModeIcon{left:4% !important;top:350px !important;}
+  body.mobile-mode .news-desktop-icon{left:calc(4% + 80px) !important;top:350px !important;}
+  body.mobile-mode .pcpal-game-icon{right:calc(4% + 80px) !important;top:350px !important;}
+  body.mobile-mode .ad-shop-icon{right:4% !important;top:350px !important;}
+
+  /* Do not show the mobile-only decorative footer labels in the content flow. */
+  body.mobile-mode .corner{display:none !important;}
+
+  /* ⑤⑥⑦: bottom controls become a vertical stack, with their original contents. */
+  body.mobile-mode .bottom{
+    position:relative !important; inset:auto !important; width:100% !important; height:auto !important;
+    margin:0 !important; padding:0 !important; display:flex !important; flex-direction:column !important;
+    gap:12px !important; flex:none !important; order:3 !important; z-index:16 !important;
+  }
+  body.mobile-mode #statusBoxContainer{
+    position:relative !important; inset:auto !important; order:1 !important; width:100% !important; height:145px !important;
+    flex:none !important; margin:0 !important; padding:14px 16px !important; font-size:11px !important;
+  }
+  body.mobile-mode #miniAquarium{
+    position:relative !important; inset:auto !important; order:2 !important; width:100% !important; height:170px !important;
+    flex:none !important; margin:0 !important;
+  }
+  body.mobile-mode .music{
+    position:relative !important; inset:auto !important; order:3 !important; width:100% !important; height:112px !important;
+    flex:none !important; margin:0 !important; padding:12px 14px !important;
+  }
+  body.mobile-mode .music-small{font-size:10px !important}.music-name{font-size:16px !important}
+  body.mobile-mode .player-btn{padding:6px 10px !important;font-size:12px !important}
+
+  /* ⑧⑨ */
+  body.mobile-mode .panel.chat{
+    position:relative !important; inset:auto !important; order:4 !important; width:100% !important; height:270px !important;
+    flex:none !important; margin:0 !important;
+  }
+  body.mobile-mode .panel.chat .panel-title{height:42px !important;font-size:16px !important}
+  body.mobile-mode .panel.chat .chat-body{height:calc(100% - 42px) !important;padding:10px 12px !important;font-size:13px !important;line-height:1.55 !important;overflow-y:auto !important}
+  body.mobile-mode .panel.info{
+    position:relative !important; inset:auto !important; order:5 !important; width:100% !important; height:auto !important;
+    min-height:180px !important; flex:none !important; margin:0 !important;
+  }
+  body.mobile-mode .panel.info .panel-title{height:42px !important;font-size:16px !important}
+  body.mobile-mode .panel.info .info-body{padding:12px 14px !important;font-size:14px !important;line-height:1.55 !important}
+  body.mobile-mode .panel.info .program{font-size:20px !important}
+
+  /* Popups remain functional on the phone. */
+  body.mobile-mode .ad-popup,body.mobile-mode .world-news-popup,
+  body.mobile-mode .pcpal-othello-popup,body.mobile-mode .pcpal-prototype-popup{
+    position:fixed !important; left:50% !important; top:50% !important;
+    max-width:calc(100vw - 24px) !important; max-height:calc(100vh - 24px) !important; z-index:2147483000 !important;
+  }
+  body.mobile-mode .world-news-popup{width:calc(100vw - 24px) !important;height:min(620px,calc(100vh - 24px)) !important;}
+  body.mobile-mode .ad-popup{width:min(380px,calc(100vw - 24px)) !important;}
+}
 </style>                        
 </head>                        
 <body>                        
@@ -1988,6 +2121,10 @@ body {
     <span id="residentLabel">PUNI</span>        
   </div>        
 </div>                        
+  <div class="desktop-icon mobile-mode-icon" id="mobileModeIcon" aria-label="MOBILE MODE" aria-pressed="false">
+    <div class="mobile-mode-art"><div class="mobile-mode-phone"></div></div>
+    <span>MOBILE</span>
+  </div>
   <div class="desktop-icon news-desktop-icon" id="worldNewsIcon" aria-label="WORLD NEWS">
     <div class="desktop-icon-art"><div class="news-icon-art"><span></span></div></div>
     <span>NEWS</span>
@@ -3249,6 +3386,16 @@ if (pcpalPrototypeClose) pcpalPrototypeClose.addEventListener("click", () => tog
 if (pcpalPrototypePopup) pcpalPrototypePopup.addEventListener("click", (e) => {
   if (e.target === pcpalPrototypePopup) togglePCPALPrototype(false);
 });
+const mobileModeIcon = document.getElementById("mobileModeIcon");
+if (mobileModeIcon) {
+  mobileModeIcon.addEventListener("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const active = document.body.classList.toggle("mobile-mode");
+    mobileModeIcon.setAttribute("aria-pressed", active ? "true" : "false");
+  });
+}
+
 </script>                        
 </body>                        
 </html>        
