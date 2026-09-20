@@ -2007,17 +2007,26 @@ body {
     animation:none !important; z-index:18 !important;
   }
 
-  /* ④ right four icons, still over the same original scene */
-  body.mobile-mode #mobileModeIcon,body.mobile-mode .news-desktop-icon,
-  body.mobile-mode .pcpal-game-icon,body.mobile-mode .ad-shop-icon{
-    position:absolute !important; left:auto !important; right:auto !important; bottom:auto !important;
-    width:72px !important; height:72px !important; margin:0 !important; padding:3px 0 5px !important;
-    transform:none !important; z-index:21 !important;
+  /* ④ lower four icons: same layout specification as the upper four icons */
+  body.mobile-mode .mobile-lower-icons{
+    position:absolute !important; left:4% !important; right:4% !important; top:350px !important; bottom:auto !important;
+    width:92% !important; height:72px !important; margin:0 !important; padding:0 !important;
+    display:flex !important; flex-direction:row !important; justify-content:space-between !important;
+    align-items:flex-start !important; gap:4px !important; z-index:21 !important;
   }
-  body.mobile-mode #mobileModeIcon{left:4% !important;top:350px !important;}
-  body.mobile-mode .news-desktop-icon{left:calc(4% + 80px) !important;top:350px !important;}
-  body.mobile-mode .pcpal-game-icon{right:calc(4% + 80px) !important;top:350px !important;}
-  body.mobile-mode .ad-shop-icon{right:4% !important;top:350px !important;}
+  body.mobile-mode .mobile-lower-icons > .desktop-icon{
+    position:relative !important; inset:auto !important;
+    width:calc((100% - 12px)/4) !important; height:70px !important;
+    margin:0 !important; padding:3px 0 5px !important;
+    flex:0 0 calc((100% - 12px)/4) !important;
+    transform:none !important;
+  }
+  body.mobile-mode .mobile-lower-icons .desktop-icon-art,
+  body.mobile-mode .mobile-lower-icons .mobile-mode-art,
+  body.mobile-mode .mobile-lower-icons .ad-cart-art,
+  body.mobile-mode .mobile-lower-icons .pcpal-game-art{
+    margin-left:auto !important; margin-right:auto !important;
+  }
 
   /* Do not show the mobile-only decorative footer labels in the content flow. */
   body.mobile-mode .corner{display:none !important;}
@@ -2121,6 +2130,7 @@ body {
     <span id="residentLabel">PUNI</span>        
   </div>        
 </div>                        
+  <div class="mobile-lower-icons">
   <div class="desktop-icon mobile-mode-icon" id="mobileModeIcon" aria-label="MOBILE MODE" aria-pressed="false">
     <div class="mobile-mode-art"><div class="mobile-mode-phone"></div></div>
     <span>MOBILE</span>
@@ -2136,6 +2146,7 @@ body {
   <div class="desktop-icon pcpal-game-icon" id="pcpalGameIcon" aria-label="GAME">
     <div class="pcpal-game-art"><div class="pcpal-game-board-icon"><i class="pcpal-game-piece-icon one"></i><i class="pcpal-game-piece-icon two"></i><i class="pcpal-game-piece-icon three"></i><i class="pcpal-game-piece-icon four"></i></div></div>
     <span>GAME</span>
+  </div>
   </div>
   <div class="pcpal-othello-popup" id="pcpalOthelloPopup" aria-hidden="true">
     <div class="pcpal-othello-titlebar"><span>GAME｜REVERSI</span><button class="pcpal-othello-close" id="pcpalOthelloClose" type="button" aria-label="閉じる">×</button></div>
